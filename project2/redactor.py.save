@@ -1,0 +1,82 @@
+import sklearn
+import spacy
+import glob
+import io
+import os
+import pdb
+import sys
+import json
+
+nlp = None
+
+# This function produces redacted files from the given input files
+# Also, it generates features and labels from the redacted files and save them in a JSON file
+# This function requires 3 parameters:
+# 1) The text should be redacted and used for generating features
+# 2) The result dictionary used for saving the features and labels
+# 3) The file name the text belongs to
+# The extracted features:
+# 1) are the length of a PERSON
+# 2) Whether the PERSON's name has space
+# 3) Gender
+def redact(text,result_dict,file_name):
+   male=['he','his','him','himself']
+   female=['she','her','her','herself']
+   doc = nlp(text)
+   redacted = []
+   D = []
+   for sent in doc.sents:
+       gender_found=False
+       for word in sent.ents:
+           if word.label_== 'PERSON':
+               d = {}
+               d["length"] = len(word.text)
+               d["spaces"] = 1 if " " in word.text else 0
+               d["gender"]= 0
+               if not gender_found:
+                   for token in sent:
+                      if  token.text.lower() in male  and (token.pos_== 'PRON'):
+                         d["gender"]=1
+                         gender_found=True
+                         break
+                      if  token.text.lower() in female  and (token.pos_== 'PRON'):
+                         d["gender"]=2
+                         gender_found=True
+                         break
+              
+               redacted.append((word.start_char,len(word.text)))
+               D.append((d,word.text,word.start_char,len(word.text)))
+   if len(D)!=0:
+       result_dict[file_name]=D
+   return redacted
+
+def launcher(input,output):
+   result_dict= {}
+   for thefile in glob.glob(input+'/*.txt'):
+       with io.open(thefile, 'r', encoding='utf-8') as fyl:
+           file_name = thefile[thefile.rindex('/')+1:]+'.redacted'
+          
+           
+           text = fyl.read()
+           redacted=redact(text,result_dict,file_name)
+           to_write=list(text)
+           for location in redacted:
+               for i in range(location[0],location[0]+location[1]):
+                  to_write[i]= '\u2588'
+           
+           to_write=''.join(to_write)
+           file_=open(output+'/'+file_name,"w")
+           file_.write(to_write)
+           file_.close() 
+   with open(output+"/result.json", "w") as outfile: 
+    json.dump(result_dict, outfile)
+if __name__ == "__main__":
+    nlp = spacy.load("en_core_web_lg")
+    output = sys.argv[-1]
+    input = sys.argv[-2]
+    for f in glob.glob(output+'/'+'*.redacted'):
+        os.remove(f)
+    if os.path.exists(output+"/result.json"):
+        os.remove(output+"/result.json")
+    launcher(input,output)
+
