@@ -1,14 +1,13 @@
-SAID JALAL SAIDI
+Said Jalal Saidi
 
-HOW TO RUN: PROJECT 2 CONSISTS OF TWO IMPORTANT PYTHON FILES: THE FIRST FILE IS REDACTOR.PY. THE REDACTOR.PY SHOULD BE RUN USING: 
-pipenv run python project2/redactor.py 'project2/all-data/sample' 'project2/all-data/sample/redacted'. 
-IT REQUIRES TWO COMMAND LINE ARGUMENTS: A) THE LOCATION WHERE ORIGINAL TEXT FILES SHOULD BE USED FOR REDACTION. B) THE LOCATION WHERE THE REDACTED FILES AND EXTRACTED FEATURES SHOULD BE SAVED.
-THE SECOND PYTHON FILE IS UNREDACTOR.PY. IT SHOULD BE RUN USING:
-pipenv run python project2/unredactor.py  'project2/all-data/sample/redacted'
-IT REQUIRES ONE COMMAND LINE ARGUMENT, THE LOCATION WHERE UNREDACTED FILES EXIST. 
+How to run: project 2 consists of two important python files: the first file is redactor.Py. The redactor.Py should be run using: 
+Pipenv run python project2/redactor.Py 'project2/all-data/sample' 'project2/all-data/sample/redacted'. 
+It requires two command line arguments: a) the location where original text files should be used for redaction. B) the location where the redacted files and extracted features should be saved.
 
+The second python file is unredactor.py. It should be run using:
+Pipenv run python project2/unredactor.py  'project2/all-data/sample/redacted'
+It requires one command line argument, the location where unredacted files exist. 
 
+Libraries, dependencies, and virtual environment: first, a virtual environment is created using pyenv, with a 3.8.6 python version. Second, project1 module is installed in this virtual env. Third, required libraries to run are installed such as "Pipenv". Fourth, required libraries for the program functionalities are installed such as spacy, which is necessary for extracting name entities and part of speech tagging. Other libraries such as sklearn are used for preprocessing such as DictVectorizer and splitting to training and testing. Moreover, RandomForestClassifier from Sklearn is used to train the models. Finally, the classification report is used for the model evaluation.
 
-LIBRARIES, DEPENDENCIES, AND VIRTUAL ENVIRONMENT: FIRST, A VIRTUAL ENVIRONMENT IS CREATED USING PYENV, WITH A 3.8.6 PYTHON VERSION. SECOND, PROJECT1 MODULE IS INSTALLED IN THIS VIRTUAL ENV. THIRD, REQUIRED LIBRARIES TO RUN ARE INSTALLED SUCH AS "pipenv". FOURTH, REQUIRED LIBRARIES FOR THE PROGRAM FUNCTIONALITIES ARE INSTALLED SUCH AS SPACY, WHICH IS NECESSARY FOR EXTRACTING NAME ENTITIES AND PART OF SPEECH TAGGING. OTHER LIBRARIES SUCH AS SKLEARN ARE USED PREPROCESSING SUCH AS DICTVECTORIZER AND SPLITTING TO TRAINING AND TESTING. MOREOVER, RANDOMFORESTCLASSIFIER FROM SKLEARN IS USED TO TRAIN THE MODELS. FINALLY, THE CLASSIFICATION REPORT IS USED FOR THE MODEL EVALUATION.
-
-ASSUMPTIONS: THE REDACTOR.PY USES THE INPUT TEXT FILES AS INPUT. IT USES SPACY ENTITY TO LOCATE THE NAME ENTITIES AND REDACT THEM. ALSO, IT EXTRACTS THE FEATURES AS WELL AS THEIR LABELS AND SAVES THEM IN A SEPARATED JSON FILES. THE EXTRACTED FEATURES ARE THE LENGTH, GENDER, AND WHETHER THEY INCLUDE SPACE OR NOT. THIS JSON FILE, LATER ON, WILL BE USED BY THE UNREDACTOR.PY FOR BOTH TRAINING AND TESTING. UNREDACTOR.PY IMPORTS THE JSON FILE AS A DICTIONARY. THE KEYS FOR THE DICTIONARY ARE FILE NAMES OF THE REDACTED FILES. THE VALUES FOR THE DICTIONARY ARE ARRAYS OF FEATURES ENCODED AS A DICTIONARY. ALSO, THE VALUE INCLUDES THE LOCATION OF THE REDACTED ITEM IN THE GIVEN FILE. AFTER, THE TRAINING USING RANDOM FOREST, IT PREDICTS A VALUE FOR EACH REDACTED ITEM AND UNREDACTS THEM. THE RESULT WILL BE SAVED IN A SEPARATE DIRECTORY.
+Assumptions: the redactor.py uses the input text files as input. It uses spacy entity to locate the name entities and redact them. Also, it extracts the features as well as their labels and saves them in a separate JSON file. The extracted features are the length, gender, and whether they include space or not. This JSON file, later on, will be used by the unredactor.Py for both training and testing. Unredactor.Py imports the JSON file as a dictionary. The keys for the dictionary are the file names of the redacted files. The values for the dictionary are arrays of features encoded as a dictionary. Also, the value includes the location of the redacted item in the given file. After, the training using random forest, it predicts a value for each redacted item and unredacted them. The result will be saved in a separate directory.
