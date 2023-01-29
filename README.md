@@ -1,6 +1,6 @@
 Said Jalal Saidi
 
-How to run: project 2 consists of two important python files: the first file is redactor.Py. The redactor.Py should be run using: 
+How to run: project 2 consists of two important Python files: the first file is redactor.Py. The redactor.Py should be run using: 
 Pipenv run python project2/redactor.Py 'project2/all-data/sample' 'project2/all-data/sample/redacted'. 
 It requires two command line arguments: a) the location where original text files should be used for redaction. B) the location where the redacted files and extracted features should be saved.
 
